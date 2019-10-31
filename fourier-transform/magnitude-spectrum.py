@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 img = cv.imread('../images/cameraman.png', 0)
 
 f = np.fft.fft2(img)
-o_img = np.fft.ifft2(f)
 fshift = np.fft.fftshift(f)
 magnitude_spectrum = 20*np.log(np.abs(fshift))
 
