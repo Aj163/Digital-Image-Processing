@@ -1,18 +1,24 @@
-import cv2 as cv
-import numpy as np
-from matplotlib import pyplot as plt
+import cv2
+import numpy as np 
+from matplotlib import pyplot as plt 
 
-img = cv.imread('../images/cameraman.png', 0)
-kernel = np.ones((9, 9), np.float32) / 81
+img = cv2.imread('../images/cameraman.png', 0)
 
-blur_img = cv.filter2D(img, -1, kernel)
+kernel = np.zeros(img.shape)
+r, c = kernel.shape
 
-plt.subplot(1, 2, 1)
-plt.imshow(img, cmap='gray'), plt.title('Original')
+x = cv2.getGaussianKernel(15, 10)
+gaussian = x * x.T
+
+kernel[r//2 - 7 : r//2 + 8, c//2 - 7 : c//2 + 8] = gaussian
+blur_img = cv2.filter2D(img, -1, gaussian)
+
+plt.subplot(121), plt.title('Image')
+plt.imshow(img, cmap='gray')
 plt.xticks([]), plt.yticks([])
 
-plt.subplot(1, 2, 2)
-plt.imshow(blur_img, cmap='gray'), plt.title('Smoothened image')
+plt.subplot(122), plt.title('Blurred Image')
+plt.imshow(blur_img, cmap='gray')
 plt.xticks([]), plt.yticks([])
 
 plt.show()
